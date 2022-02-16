@@ -1,3 +1,12 @@
+# Jupyter Notebook
+.ipynb_checkpoints
+
+#for dataset
+*/data/
+
+#for colab
+For_github_commit.ipynb
+
 '''
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -129,12 +138,3 @@ dmypy.json
 # Pyre type checker
 .pyre/
 '''
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-#for dataset
-*/data/
-
-#for colab
-For_github_commit.ipynb
