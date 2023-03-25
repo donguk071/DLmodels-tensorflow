@@ -14,7 +14,7 @@ class DataReader:
 
         self.f_data_reader()
 
-    def f_data_reader(self, rootfolder=" "):
+    def f_data_reader(self, rootfolder=" ", img_size = 150):
 
         file_path_P = glob.glob('./data/RSP_data/paper/*')
         file_path_R = glob.glob('./data/RSP_data/rock/*')
@@ -35,9 +35,9 @@ class DataReader:
             if i > len(file_path_P)*2 and i < len(file_path_P)*3:
                 img_label = 2
             if i % 1000 == 0:
-                print("labeling data set : " + i + "/" + len(file_path))
+                print("labeling data set : " + str(i) + "/" + str(len(file_path)))
             data.append((img, img_label))
-        print("labeling data done : " + len(file_path) + "/" + len(file_path))
+        print("labeling data done : " + str(len(file_path)) + "/" + str(len(file_path)))
 
         # optional cause we are using train_test_split func
         random.shuffle(data)

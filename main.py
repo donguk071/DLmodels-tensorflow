@@ -1,5 +1,5 @@
 from tensorflow import keras
-import data.data_reader as data_reader
+import readData.my_data_reader as data_reader
 
 EPOCHS = 1
 
@@ -29,9 +29,9 @@ model.compile(optimizer='adam', metrics=['accuracy'],
 print("\n\n************ TRAINING START ************ ")
 early_stop = keras.callbacks.EarlyStopping(monitor='val_loss', patience=3)
 early_stop2 = keras.callbacks.EarlyStopping(monitor='val_accuracy', patience=3)
-print(dr.train_Y.dtype)
-history = model.fit(dr.train_X, dr.train_Y, epochs=EPOCHS,
-                    validation_data=(dr.test_X, dr.test_Y),
+print(dr.y_train.dtype)
+history = model.fit(dr.x_train, dr.y_train, epochs=EPOCHS,
+                    validation_data=(dr.x_test, dr.y_test),
                     callbacks=[early_stop, early_stop2])
 
 # monitor : 학습 조기종료를 위해 관찰하는 항목입니다. val_loss 나 val_accuracy 가 주로 사용됩니다. (default : val_loss)

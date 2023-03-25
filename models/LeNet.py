@@ -1,39 +1,50 @@
-from data import my_data_reader
-from tensorflow import keras
-
 import sys
-sys.path.append('C:/Users/drago/university/23.1 semester/DL/data')
+sys.path.append(
+    'C:\\Users\\drago\\university\\23.1 semester\\DL\\DLmodels-tensorflow')
+print(sys.path)
 
+from tensorflow import keras
+from  tensorflow.keras.optimizers import Adam 
+from readData import my_data_reader
 
 #import data
-data = myReader.DataReader()
-mdata = data.f_data_reader()
-print(mdata.x_train)
+data = my_data_reader.DataReader()
 
-
-# design model
+#design model
 model = keras.Sequential([
-    keras.layers.Conv2D(filters=5, kernel_size=15,
-                        input_shape=(150, 150, 3), activation="relu"),
+    
+    #150x150(our img) to 32x32(lenet img) 
     keras.layers.MaxPooling2D((2, 2)),
-    keras.layers.Conv2D(32, (3, 3), activation='relu'),
+    keras.layers.MaxPooling2D((2, 2)),
+    
+    
+    keras.layers.Conv2D(input_shape = (32,32,3), filters = 6, kernel_size = (5,5), activation = 'tanh' ),
+    keras.layers.MaxPooling2D((2, 2)),
+    keras.layers.Conv2D(filters = 16, kernel_size = (5,5), activation = 'tanh' ),
+    keras.layers.MaxPooling2D((2, 2)),
     keras.layers.Flatten(),
-    keras.layers.Dense(128, activation='relu'),
+    keras.layers.Dense(120, activation='tanh'),
+    keras.layers.Dense(84, activation = 'tanh'),
     keras.layers.Dense(3, activation="softmax")
 ])
 
-model.compile(optimizer="adam", loss="mean_squared error",
-              metrics=['accuracy'])
 
-# start training
+model.compile(optimizer = Adam(learning_rate = 0.001), loss = 'sparse_categorical_crossentropy', metrics= ['accuracy'])
+# categorical_crossentropy is used when label is one - hot - encoded
 print("model definded\n\n", model.summary)
 
-print("start training", model.summary)
-early_stop = keras.callbacks.EarlyStopping(monitor='val_loss', patience=3)
-early_stop2 = keras.callbacks.EarlyStopping(monitor='val_accuracy', patience=3)
-history = model.fit(data.x_train, data.y_train, epochs=2,
+
+# start training
+print("*****************start training*************************\n\n", model.summary)
+early_stop = keras.callbacks.EarlyStopping(monitor='val_loss', patience=2)
+early_stop2 = keras.callbacks.EarlyStopping(monitor='val_accuracy', patience=2)
+
+history = model.fit(data.x_train, data.y_train, epochs=10,
                     validation_data=(data.x_test, data.y_test),
                     callbacks=[early_stop, early_stop2])
+
+res = model.evaluate(data.x_test,data.y_test,verbose = 0 )
+print("acc is : ", res[1]* 100)
 
 
 # monitor : 학습 조기종료를 위해 관찰하는 항목입니다. val_loss 나 val_accuracy 가 주로 사용됩니다. (default : val_loss)
