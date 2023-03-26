@@ -4,36 +4,39 @@ import numpy as np
 import random
 from sklearn.model_selection import train_test_split
 
-
 class DataReader:
-    def __init__(self):
+    def __init__(self, rootfolder = " "):
         self.x_train = []
         self.x_test = []
         self.y_train = []
         self.y_test = []
+        #self.f_data_reader(rootfolder)
+    def f_data_reader(self, rootfolder, img_size=150, one_hot_encoding=False):
 
-        self.f_data_reader()
+        print(str(rootfolder) + "/*")
+        folder_path = glob.glob(str(rootfolder) + "/*")
+        print("Read folder path : " + str(folder_path))
 
-    def f_data_reader(self, rootfolder=" ", img_size = 150):
+        numFiles = [0] * len(folder_path)  # numFiles 리스트 초기화
+        file_path = []
+        for i, path in enumerate(folder_path):
+            temp_path = glob.glob(path + "/*")  # 폴더 내 모든 파일 경로 가져오기
+            numFiles[i] = len(temp_path)
+            file_path += temp_path
 
-        file_path_P = glob.glob('./data/RSP_data/paper/*')
-        file_path_R = glob.glob('./data/RSP_data/rock/*')
-        file_path_S = glob.glob('./data/RSP_data/scissors/*')
-
-        file_path = file_path_S + file_path_R + file_path_P
-
-        print("size of data set : \n\n" + str(len(file_path)))
+        print("size of data set : " + str(len(file_path)))
+        print("size of each label : " + str(numFiles))
 
         data = []
-        for i, path in enumerate(file_path):  # label data set
+        for i, path in enumerate(file_path):
             img = Image.open(path)
             img = np.asarray(img)
-            if i < len(file_path_P):
-                img_label = 0
-            if i > len(file_path_R) and i < len(file_path_S)*2:
-                img_label = 1
-            if i > len(file_path_P)*2 and i < len(file_path_P)*3:
-                img_label = 2
+
+            for j, folder in enumerate(folder_path):
+                if i < sum(numFiles[:j + 1]):  # 파일이 속한 폴더의 인덱스 계산
+                    img_label = j
+                    break
+
             if i % 1000 == 0:
                 print("labeling data set : " + str(i) + "/" + str(len(file_path)))
             data.append((img, img_label))
@@ -48,8 +51,8 @@ class DataReader:
         # train_test_split
         self.x_train, self.x_test, self.y_train, self.y_test = train_test_split(
             data, target, test_size=0.2, shuffle=True, stratify=target, random_state=34)
-        self.x_train = np.array(self.x_train)/255.0
-        self.x_test = np.array(self.x_test)/255.0
+        self.x_train = np.array(self.x_train) / 255.0
+        self.x_test = np.array(self.x_test) / 255.0
         self.y_train = np.array(self.y_train) / 1.0
         self.y_test = np.array(self.y_test) / 1.0
 

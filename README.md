@@ -3,6 +3,6 @@
 
 ## implemented models by TensorFlow
 
-1. 
+1. LeNet
 2. 
 3.
