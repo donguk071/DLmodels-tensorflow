@@ -8,7 +8,7 @@ from  tensorflow.keras.optimizers import Adam
 from readData import my_data_reader
 
 dr = my_data_reader.DataReader()
-dr.f_data_reader('./data/RSP_data')
+dr.f_data_reader(rootfolder ='./data/RSP_data', img_size=224)
 
 
 model = keras.Sequential([
@@ -47,4 +47,3 @@ history = model.fit(dr.x_train, dr.y_train, epochs=2,
 
 res = model.evaluate(dr.x_test,dr.y_test,verbose = 0 )
 print("acc is : ", res[1]* 100)
-

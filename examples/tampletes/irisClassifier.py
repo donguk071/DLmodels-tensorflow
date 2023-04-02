@@ -6,6 +6,7 @@ import sys
 from tensorflow import keras
 from  tensorflow.keras.optimizers import Adam 
 from matplotlib import pyplot as plt
+from sklearn.preprocessing import MinMaxScaler
 
 #importing data
 data = []
@@ -28,8 +29,9 @@ target = [row[1] for row in data]
 data = [row[0] for row in data]
 
 
-# normalize min,max
+############ normalize min,max ###################
 #( X- (X의 최솟값) ) / ( X의 최댓값 - X의 최솟값 )
+'''
 mmin = [12,12,12,12]
 mmax = [0,0,0,0]
 for i in range(4):
@@ -42,6 +44,15 @@ for i in range(4):
 for i in range(4):
     for j in range(len(data)):
         data[j][i] = (data[j][i] - mmin[i]) / (mmax[i] - mmin[i])
+'''
+################# 한 줄로 대체 가능###################
+'''
+data = (data-np.min(data, axis = 0)) / (np.max(data, axis = 0) - np.min(data, axis = 0))
+'''
+################# 라이브러리로 대체 가능###############
+scaler = MinMaxScaler()
+data = scaler.fit_transform(data)
+
 
 #splite train validation data
 x_train, x_test, y_train, y_test = train_test_split(

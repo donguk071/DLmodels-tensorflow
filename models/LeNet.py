@@ -9,14 +9,10 @@ from readData import my_data_reader
 
 #import data
 data = my_data_reader.DataReader()
-data.f_data_reader(rootfolder = "./data/RSP_data")
+data.f_data_reader(rootfolder = "./data/RSP_data", img_size= 32)
 
 #design model
 model = keras.Sequential([
-    
-    #150x150(our img) to 32x32(lenet img) 
-    keras.layers.MaxPooling2D((2, 2)),
-    keras.layers.MaxPooling2D((2, 2)),
     keras.layers.Conv2D(input_shape = (32,32,3), filters = 6, kernel_size = (5,5), activation = 'tanh' ),
     keras.layers.MaxPooling2D((2, 2)),
     keras.layers.Conv2D(filters = 16, kernel_size = (5,5), activation = 'tanh' ),

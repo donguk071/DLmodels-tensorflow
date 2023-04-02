@@ -30,6 +30,8 @@ class DataReader:
         data = []
         for i, path in enumerate(file_path):
             img = Image.open(path)
+            if i == 0 : print("img resize " + str(img.size[1]) + " to " + str(img_size))
+            img = img.resize((img_size, img_size))
             img = np.asarray(img)
 
             for j, folder in enumerate(folder_path):
@@ -61,3 +63,15 @@ class DataReader:
         print("Training Y Size : " + str(self.y_train.shape))
         print("Test X Size : " + str(self.x_test.shape))
         print("Test Y Size : " + str(self.y_test.shape) + '\n\n')
+    
+    
+    def csv_data_reader(file_path = " ", one_hot_encoding=False):
+        
+        print("\n\nData Read Done!")
+        print("Training X Size : " + str(self.x_train.shape))
+        print("Training Y Size : " + str(self.y_train.shape))
+        print("Test X Size : " + str(self.x_test.shape))
+        print("Test Y Size : " + str(self.y_test.shape) + '\n\n')
+        
+    
+        
