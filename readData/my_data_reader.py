@@ -3,6 +3,7 @@ from PIL import Image
 import numpy as np
 import random
 from sklearn.model_selection import train_test_split
+import tensorflow as tf
 
 class DataReader:
     def __init__(self, rootfolder = " "):
@@ -49,7 +50,12 @@ class DataReader:
 
         target = [row[1] for row in data]
         data = [row[0] for row in data]
-
+        
+        #one hot encoding
+        num_label = np.unique(target)
+        if one_hot_encoding : 
+            tf.keras.utils.to_categorical(target, num_label)
+        
         # train_test_split
         self.x_train, self.x_test, self.y_train, self.y_test = train_test_split(
             data, target, test_size=0.2, shuffle=True, stratify=target, random_state=34)
