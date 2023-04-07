@@ -33,8 +33,10 @@ data.f_data_reader(rootfolder = "./data/RSP_data", img_size= 224)
 # ])
 
 # number of classes
-K = 4
+K = 3
  
+ 
+#직접 제작하는 방식을 사용해야한다
 input_tensor = Input(shape=(224, 224, 3), dtype='float32', name='input')
  
  
@@ -56,7 +58,7 @@ def conv2_layer(x):
  
     for i in range(3):
         if (i == 0):
-            x = Conv2D(64, (1, 1), strides=(1, 1), padding='valid')(x)
+            x = Conv2D(64, (1, 1), strides=(1, 1), padding='valid')(x) #padding 없음
             x = BatchNormalization()(x)
             x = Activation('relu')(x)
             
@@ -238,3 +240,4 @@ output_tensor = Dense(K, activation='softmax')(x)
  
 resnet50 = Model(input_tensor, output_tensor)
 resnet50.summary()
+
