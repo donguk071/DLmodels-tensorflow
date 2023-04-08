@@ -1,5 +1,5 @@
 # goal : how to make a residual connection ! 
-
+# https://www.tensorflow.org/guide/keras/functional?hl=ko 굉장히 잘설명해되어있는것같다
 import numpy as np
 import sys
 sys.path.append(
@@ -58,7 +58,7 @@ def conv2_layer(x):
  
     for i in range(3):
         if (i == 0):
-            x = Conv2D(64, (1, 1), strides=(1, 1), padding='valid')(x) #padding 없음
+            x = Conv2D(64, (1, 1), strides=(1, 1), padding='valid')(x) #padding 없음 필터가 1 이니까/ 차원 증가측면에서 사용
             x = BatchNormalization()(x)
             x = Activation('relu')(x)
             
@@ -240,4 +240,4 @@ output_tensor = Dense(K, activation='softmax')(x)
  
 resnet50 = Model(input_tensor, output_tensor)
 resnet50.summary()
-
+keras.utils.plot_model(resnet50, show_shapes=True)
