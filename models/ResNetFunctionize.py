@@ -1,5 +1,6 @@
 # goal : how to make a residual connection ! 
 # https://www.tensorflow.org/guide/keras/functional?hl=ko 굉장히 잘설명해되어있는것같다
+# 이 링크를 보고 구현하였다 https://ganghee-lee.tistory.com/41
 
 '''
 기존 sequancial 방식에 한계점을 resnet을 구현하다 느끼고 이제부터 
@@ -135,7 +136,12 @@ def resnet50(input_shape, classes):
     X = MaxPooling2D(2, 2, padding='SAME')(X)
     
     X = GlobalAveragePooling2D()(X)
-    X = Dense(classes, activation = 'softmax')(X) # ouput layer (10 class)
+    
+    # 이게 있어야 한다고 생각했는데 대부분의 구현 코드에 빠져있다..... 논문 봐야할듯
+    # X = keras.layers.Flatten()(X)
+    # X = Dense(1000, activation = 'relu')(X) 
+    
+    X = Dense(classes, activation = 'softmax')(X) # ouput layer 
 
     model =Model(inputs = X_input, outputs = X, name = "ResNet50")
     
