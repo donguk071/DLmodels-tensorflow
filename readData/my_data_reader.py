@@ -52,7 +52,7 @@ class DataReader:
         data = [row[0] for row in data]
         
         #one hot encoding
-        num_label = np.unique(target)
+        num_label = len(np.unique(target))
         if one_hot_encoding : 
             tf.keras.utils.to_categorical(target, num_label)
         
