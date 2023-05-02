@@ -1,7 +1,7 @@
 # Jupyter Notebook
 .ipynb_checkpoints
-.ipynb
-*.ipynb
+# .ipynb
+# *.ipynb
 
 #for dataset
 */data/
